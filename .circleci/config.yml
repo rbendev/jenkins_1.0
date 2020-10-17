@@ -23,10 +23,15 @@ jobs:
             - ./venv
           key: v0-dependencies-{{ checksum "requirements.txt" }}
       - run:
-          name: run tests
+          name: run tests pytest
           command: |
             . venv/bin/activate
             pytest
+      - run:
+          name: Running tests unittests
+          command: |
+            . venv/bin/activate
+            python3 -m unittest discover
 
 workflows:
   main:
