@@ -6,14 +6,27 @@ orbs:
 jobs:
   build-and-test:
     executor: python/default
+
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
+      - restore_cache:
+          keys:
+          - v3-dependencies-{{ checksum "requirements.txt" }}
       - run:
-          command: ./manage.py test
-          name: Test
+          name: Install dependencies
+          command: |
+            virtualenv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          paths:
+            - ./venv
+          key: v3-dependencies-{{ checksum "requirements.txt" }}
+      - run:
+          name: run tests
+          command: |
+            . venv/bin/activate
+            pytest
 
 workflows:
   main:
