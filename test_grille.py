@@ -35,5 +35,3 @@ class TestGrille(TestCase):
     def test_affiche_grille(self):
         self.fail()
 
-    def test_jouer_coup(self):
-        self.fail()
